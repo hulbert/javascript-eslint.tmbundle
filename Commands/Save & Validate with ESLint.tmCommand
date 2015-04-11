@@ -27,17 +27,11 @@ fi
 	<string>@s</string>
 	<key>name</key>
 	<string>Save &amp; Validate with ESLint</string>
-	<key>outputCaret</key>
-	<string>afterOutput</string>
-	<key>outputFormat</key>
-	<string>html</string>
-	<key>outputLocation</key>
-	<string>newWindow</string>
+	<key>output</key>
+	<string>showAsTooltip</string>
 	<key>scope</key>
 	<string>source.js</string>
 	<key>uuid</key>
 	<string>E18003EA-CF71-4E5F-A504-C62C21877FF1</string>
-	<key>version</key>
-	<integer>2</integer>
 </dict>
 </plist>

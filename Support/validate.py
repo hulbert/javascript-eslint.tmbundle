@@ -20,6 +20,7 @@ import tempfile
 import hashlib
 import shutil
 
+NUM_ERRORS_PREVIEW = 6
 
 def show_error_message(message):
     context = {
@@ -271,6 +272,31 @@ def validate(quiet=False):
 
         issues.append(issue)
 
+    # short response if quiet
+    if quiet:
+        num_issues = len(issues)
+        if num_issues == 0:
+            return
+
+        
+        message_lines = []
+        message_lines.append(
+            u'ESLint found {0} problem{1}. Run ESLint for more details.\r'
+            .format(num_issues, 's' if num_issues > 1 else '')
+        )
+
+        loop_to = min(num_issues, NUM_ERRORS_PREVIEW)
+        
+        if num_issues > NUM_ERRORS_PREVIEW:
+            message_lines.append('Preview:')
+        for issue in issues[:loop_to]:
+            message_lines.append(
+                '{line}:{character}\t{reason}'.format(**issue)
+            )
+
+        print('\r'.join(message_lines))
+        return
+        
     # normalize line numbers
     input_start_line = int(os.environ.get('TM_INPUT_START_LINE', 1)) - 1
     for issue in issues:
