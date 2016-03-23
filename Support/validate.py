@@ -123,7 +123,11 @@ def validate(quiet=False):
         path_parts.append('/usr/bin')
     if '/usr/local/bin' not in path_parts:
         path_parts.append('/usr/local/bin')
+    if os.environ.get('TM_PROJECT_DIRECTORY', None) is not None:
+        npm_bin = os.path.join(os.environ.get('TM_PROJECT_DIRECTORY'), 'node_modules', '.bin')
+        path_parts.insert(0, npm_bin)
     env['PATH'] = ':'.join(path_parts)
+    
 
     try:
         eslint = subprocess.Popen(
