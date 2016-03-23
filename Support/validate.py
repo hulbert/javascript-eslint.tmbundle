@@ -89,6 +89,14 @@ def get_marker_directory():
     return markerDir
 
 
+def update_gutter_marks(issues):
+    mate = os.environ['TM_MATE']
+    file = os.environ['TM_FILEPATH']
+    subprocess.call([mate, '--clear-mark=warning', file])
+    for issue in issues:
+        subprocess.call([mate, '--set-mark=warning:{0}'.format(issue['reason']), '--line={0}'.format(issue['line']), file])
+
+
 def validate(quiet=False):
     # absolute path of this file, used to reference other files
     my_dir = os.path.abspath(os.path.dirname(__file__))
@@ -275,6 +283,9 @@ def validate(quiet=False):
             issue['shortname'] = m.group('shortname')
 
         issues.append(issue)
+
+    if 'TM_FILEPATH' in os.environ:
+        update_gutter_marks(issues)
 
     # short response if quiet
     if quiet:
